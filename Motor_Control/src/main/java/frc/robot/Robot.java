@@ -18,9 +18,10 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-  PositionControl m_motor;
   Joystick m_js;
   double m_motorPosition;
+  //PositionControl m_motor;
+  Motor m_motor;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -31,7 +32,8 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
     m_js = new Joystick(0);
-    m_motor = new PositionControl(1);
+    //m_motor = new PositionControl(1);
+    m_motor = new Motor(2);
   }
 
   /**
@@ -80,13 +82,15 @@ public class Robot extends TimedRobot {
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
-    m_motorPosition = m_js.command();
-    m_motor.positionCommand(m_motorPosition);
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+        //m_motor.positionCommand(m_motorPosition);
+    m_motorPosition =  m_motor.command(m_js.command());
+    SmartDashboard.putNumber("Js", m_js.command());
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
