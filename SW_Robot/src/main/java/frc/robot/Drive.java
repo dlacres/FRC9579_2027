@@ -25,7 +25,7 @@ public class Drive {
     m_rateLimitTurn = new SlewRateLimiter(6);
   }
 
-  public void calc(double forwardCommand1, double turnCommand1){
+  public void command(double forwardCommand1, double turnCommand1){
     double forward = m_rateLimitForward.calculate(-forwardCommand1);
     double turn = m_rateLimitTurn.calculate(-turnCommand1);
 

@@ -17,6 +17,7 @@ public class Robot extends TimedRobot {
 
   XboxController m_xboxController;
   Drive m_drive;
+  Joystick m_js;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -25,15 +26,13 @@ public class Robot extends TimedRobot {
   public Robot() {
     m_xboxController = new XboxController(0);
     m_drive = new Drive();
+    m_js = new Joystick();
   }
 
   double forward=0.0;
   double turn=0.0;
   @Override
   public void robotPeriodic() {
-    forward = m_xboxController.getLeftY()/2.0;
-    turn = -m_xboxController.getLeftX()/2.0;
-    m_drive.calc(forward, turn);
   }
 
   @Override
@@ -47,14 +46,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    double targetingForwardSpeed = LimelightHelpers.getTY("limelight");
-    double targetingTurnSpeed = LimelightHelpers.getTX("limelight");
-    boolean validTag = LimelightHelpers.getTV("limelight");
+    m_drive.command(m_js.forward(), m_js.turn());
 
-    SmartDashboard.putNumber("Limelight Forward Speed", targetingForwardSpeed);
-    SmartDashboard.putNumber("Limelight Turn Speed", targetingTurnSpeed);
-    SmartDashboard.putBoolean("Limelight Valid Tag", validTag);
+    //double targetingForwardSpeed = LimelightHelpers.getTY("limelight");
+    //double targetingTurnSpeed = LimelightHelpers.getTX("limelight");
+    //boolean validTag = LimelightHelpers.getTV("limelight");
 
+    //SmartDashboard.putNumber("Limelight Forward Speed", targetingForwardSpeed);
+    //SmartDashboard.putNumber("Limelight Turn Speed", targetingTurnSpeed);
+    //SmartDashboard.putBoolean("Limelight Valid Tag", validTag);
   }
 
   @Override
