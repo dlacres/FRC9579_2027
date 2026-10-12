@@ -2,11 +2,11 @@ package frc.robot;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 
-public class Motor {
+public class MotorControl {
     SparkMax m_motor;
     RelativeEncoder m_encoder;
 
-    public Motor(int id) {
+    public MotorControl(int id) {
         m_motor = new SparkMax(id, SparkMax.MotorType.kBrushless);
         m_encoder = m_motor.getEncoder();
     }

@@ -1,6 +1,5 @@
-
 /*
- Control the position of a Rev Robotics motor using the Spark Max motor controller.
+ Control the velocity (speed) of a Rev Robotics motor using the Spark Max motor controller.
 */
 package frc.robot;
 
@@ -12,7 +11,7 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-public class PositionControl {
+public class MotorVelocityControl {
     SparkMax m_motor;
     SparkClosedLoopController m_positionControl;
     RelativeEncoder m_encoder;
@@ -23,7 +22,7 @@ public class PositionControl {
     private final double kMaxOutput = 1.0;
     private final double kMinOutput = -1.0;
 
-    PositionControl(int deviceId){
+    public MotorVelocityControl(int deviceId){
         m_motor = new SparkMax(deviceId, SparkMax.MotorType.kBrushless);
         m_encoder = m_motor.getEncoder();
         m_positionControl = m_motor.getClosedLoopController();
@@ -40,10 +39,10 @@ public class PositionControl {
         m_encoder.setPosition(0.0);
     }
 
-    public double positionCommand(double command){
-        m_positionControl.setSetpoint(command,ControlType.kMAXMotionPositionControl);
+    public double velocityCommand(double command){
+        m_positionControl.setSetpoint(command,ControlType.kMAXMotionVelocityControl);
 
-        return(m_encoder.getPosition());
+        return(m_encoder.getVelocity());
     }
 }
  
