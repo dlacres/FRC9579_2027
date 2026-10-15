@@ -22,7 +22,6 @@ public class MotorPositionControl {
     private final double kD = 0.0;
     private final double kMaxOutput = 1.0;
     private final double kMinOutput = -1.0;
-    private final double kScaleFactor = 1.0;
 
     MotorPositionControl(int deviceId){
         m_motor = new SparkMax(deviceId, SparkMax.MotorType.kBrushless);
