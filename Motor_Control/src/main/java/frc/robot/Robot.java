@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
-  MotorControl m_motor;
-  //MotorPositionControl m_motor;
+  //MotorControl m_motor;
+  MotorPositionControl m_motor;
   //MotorVelocityControl m_motor;
   Joystick m_js;
-  double m_motorPosition;
+  double m_motorPosition=0.0;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -25,9 +25,9 @@ public class Robot extends TimedRobot {
    */
   public Robot() {
     m_js = new Joystick(0);
-    //m_motor = new MotorPositionControl(2);
+    m_motor = new MotorPositionControl(2);
     //m_motor = new MotorVelocityControl(2);
-    m_motor = new MotorControl(2);
+    //m_motor = new MotorControl(2);
   }
 
   /**
@@ -40,6 +40,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     SmartDashboard.putNumber("Motor_Pos", m_motorPosition);
+    SmartDashboard.putNumber("Js", m_js.command());
   }
 
   @Override
@@ -51,17 +52,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    m_motorPosition = m_js.command();
-    //m_motor.MotorPositionCommand(m_js.command());
-    //m_motor.MotorVelocityCommand(m_js.command());
-    m_motor.command(m_js.command());
+    m_motor.setEncoderPosition(0.0);
+    //m_motor.velocityCommand(m_js.command());
+    //m_motor.command(m_js.command());
   }
 
   @Override
   public void teleopPeriodic() {
-    //m_motor.positionCommand(m_motorPosition);
-    m_motorPosition =  m_motor.command(m_js.command());
-    SmartDashboard.putNumber("Js", m_js.command());
+    m_motorPosition = m_motor.positionCommand(m_js.command()*5);
+    //m_motorPosition =  m_motor.command(m_js.command());
   }
 
   @Override
