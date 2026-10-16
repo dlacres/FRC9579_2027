@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
   //MotorControl m_motor;
-  MotorPositionControl m_motor;
-  //MotorVelocityControl m_motor;
+  MotorPositionControl m_motor_pos;
+  MotorVelocityControl m_motor;
   Joystick m_js;
   double m_motorPosition=0.0;
 
@@ -25,8 +25,8 @@ public class Robot extends TimedRobot {
    */
   public Robot() {
     m_js = new Joystick(0);
-    m_motor = new MotorPositionControl(2);
-    //m_motor = new MotorVelocityControl(2);
+    m_motor_pos = new MotorPositionControl(2);
+    m_motor = new MotorVelocityControl(2);
     //m_motor = new MotorControl(2);
   }
 
@@ -52,14 +52,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    m_motor.setEncoderPosition(0.0);
+    m_motor_pos.setEncoderPosition(0.0);
     //m_motor.velocityCommand(m_js.command());
     //m_motor.command(m_js.command());
   }
 
   @Override
   public void teleopPeriodic() {
-    m_motorPosition = m_motor.positionCommand(m_js.command()*5);
+    m_motorPosition = m_motor.velocityCommand(m_js.command());
+    //m_motorPosition = m_motor.positionCommand(m_js.command()*5);
     //m_motorPosition =  m_motor.command(m_js.command());
   }
 
