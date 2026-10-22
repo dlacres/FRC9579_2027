@@ -21,18 +21,16 @@ public class MotorVelocityControl {
 
     public MotorVelocityControl(int deviceId){
         m_motor = new SparkMax(deviceId, SparkMax.MotorType.kBrushless);
+
         m_encoder = m_motor.getEncoder();
+        m_encoder.setPosition(0.0);
+
         m_velocityControl = m_motor.getClosedLoopController();
 
         m_config = new SparkMaxConfig();
-
         m_config.closedLoop.pid(kP, kI, kD); // Set P, I, D gains
         m_config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
-        m_config.closedLoop.p(kP);
-        m_config.closedLoop.i(kI);
-        m_config.closedLoop.d(kD);
         m_motor.configure(m_config,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
-        m_encoder.setPosition(0.0);
     }
 
     public void command(double command){
@@ -43,6 +41,9 @@ public class MotorVelocityControl {
     }
     public double getVelocity(){
         return(m_encoder.getVelocity());
+    }
+    public void setEncoderPosition(double position){
+        m_encoder.setPosition(position);
     }
 }
  

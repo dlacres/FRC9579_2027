@@ -13,16 +13,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
-<<<<<<< HEAD
-  //MotorControl m_motor;
-  MotorPositionControl m_motor_pos;
-  MotorVelocityControl m_motor;
-=======
   public static final int VOLTAGE=1;
   public static final int POSITION=2;
   public static final int VELOCITY=3;
   
-  int controlType = VOLTAGE;
+  int controlType = VELOCITY;
   
   // A variable to hold the the handle t the MotorControl. (undefined until "new" is called)
   MotorControl m_motorControl;
@@ -30,7 +25,6 @@ public class Robot extends TimedRobot {
   MotorVelocityControl m_motorVelocityControl;
 
   // A variable to hold the handle to the Joystick. (undefined until "new" is called)
->>>>>>> f8eeb47 (Add Arcade Drive. Update Motor Control with option to select the type of control.)
   Joystick m_js;
 
   // A variable to hold the position of the motor of double type
@@ -50,21 +44,15 @@ public class Robot extends TimedRobot {
   public Robot() {
 
     // A handle for the MotorControl. The value of 2 is the ID of the motor controller. Change this value to control a different motor.
-    m_motorControl = new MotorControl(2);
-    m_motorPositionControl = new MotorPositionControl(2);
-    m_motorVelocityControl = new MotorVelocityControl(2);
-
+    if (controlType==VOLTAGE) {
+      m_motorControl = new MotorControl(2);
+    } else if (controlType == POSITION) {
+      m_motorPositionControl = new MotorPositionControl(2);
+    } else if (controlType == VELOCITY) {
+      m_motorVelocityControl = new MotorVelocityControl(2);
+    }
     // A handle for the Joystick
     m_js = new Joystick(0);
-<<<<<<< HEAD
-    m_motor_pos = new MotorPositionControl(2);
-    m_motor = new MotorVelocityControl(2);
-    //m_motor = new MotorControl(2);
-=======
-
-    //m_motor = new MotorPositionControl(2);
-    //m_motor = new MotorVelocityControl(2);
->>>>>>> f8eeb47 (Add Arcade Drive. Update Motor Control with option to select the type of control.)
   }
 
   /**
@@ -96,13 +84,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
-<<<<<<< HEAD
-    m_motor_pos.setEncoderPosition(0.0);
-    //m_motor.velocityCommand(m_js.command());
-    //m_motor.command(m_js.command());
-=======
-    m_motorControl.setEncoderPosition(0.0);
->>>>>>> f8eeb47 (Add Arcade Drive. Update Motor Control with option to select the type of control.)
+    if (controlType==VOLTAGE) {
+      m_motorControl.setEncoderPosition(0.0);
+    } else if (controlType == POSITION) {
+      m_motorPositionControl.setEncoderPosition(0.0);
+    } else if (controlType == VELOCITY) {
+      m_motorVelocityControl.setEncoderPosition(0.0);
+    }
   }
 
   /*
@@ -110,11 +98,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-<<<<<<< HEAD
-    m_motorPosition = m_motor.velocityCommand(m_js.command());
-    //m_motorPosition = m_motor.positionCommand(m_js.command()*5);
-    //m_motorPosition =  m_motor.command(m_js.command());
-=======
 
     // Command the motor to move with a voltage set by the left joystick up/down movement. 1 is full voltage, 0 is no voltage.
     if (controlType==VOLTAGE) {
@@ -123,14 +106,13 @@ public class Robot extends TimedRobot {
       m_motorPosition = m_motorControl.getPosition();
     } else if (controlType == POSITION) {
       m_motorPositionControl.command(m_js.command());
-      m_motorVelocity = m_motorControl.getVelocity();
-      m_motorPosition = m_motorControl.getPosition();
-    } else if (controlType == POSITION) {
+      m_motorVelocity = m_motorPositionControl.getVelocity();
+      m_motorPosition = m_motorPositionControl.getPosition();
+    } else if (controlType == VELOCITY) {
       m_motorVelocityControl.command(m_js.command());
-      m_motorVelocity = m_motorControl.getVelocity();
-      m_motorPosition = m_motorControl.getPosition();
+      m_motorVelocity = m_motorVelocityControl.getVelocity();
+      m_motorPosition = m_motorVelocityControl.getPosition();
     }
->>>>>>> f8eeb47 (Add Arcade Drive. Update Motor Control with option to select the type of control.)
   }
 
   @Override
