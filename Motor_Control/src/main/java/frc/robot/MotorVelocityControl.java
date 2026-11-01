@@ -8,6 +8,9 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.revrobotics.*;
 
 public class MotorVelocityControl {
@@ -15,7 +18,7 @@ public class MotorVelocityControl {
     SparkClosedLoopController m_velocityControl;
     RelativeEncoder m_encoder;
     SparkMaxConfig m_config;
-    private final double kP = 0.1;
+    private final double kP = 0.01;
     private final double kI = 0.0;
     private final double kD = 0.0;
 
@@ -25,16 +28,19 @@ public class MotorVelocityControl {
         m_encoder = m_motor.getEncoder();
         m_encoder.setPosition(0.0);
 
-        m_velocityControl = m_motor.getClosedLoopController();
+        //m_velocityControl = m_motor.getClosedLoopController();
 
-        m_config = new SparkMaxConfig();
+        /*m_config = new SparkMaxConfig();
         m_config.closedLoop.pid(kP, kI, kD); // Set P, I, D gains
         m_config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
-        m_motor.configure(m_config,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
+        m_motor.configure(m_config,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);*/
     }
 
-    public void command(double command){
-        m_velocityControl.setSetpoint(command, ControlType.kMAXMotionVelocityControl);
+    public void command(double vCmd){
+        double cmd = (vCmd - m_encoder.getVelocity()/3000.0) * kP;
+        m_motor.set(cmd);
+        SmartDashboard.putNumber("Cmd", cmd);
+        //m_velocityControl.setSetpoint(command, ControlType.kVelocity);
     }
     public double getPosition(){
         return(m_encoder.getPosition());

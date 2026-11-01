@@ -68,8 +68,12 @@ public class Robot extends TimedRobot {
     // Send the current value of m_motorPosition for display in the SmartDashboard app
     SmartDashboard.putNumber("Motor_Pos", m_motorPosition);
 
+    // Send the current value of m_motorVelocity for display in the SmartDashboard app
+    SmartDashboard.putNumber("Motor_Vel", m_motorVelocity);
+
     // Send the current value of m_js.command() for display in the SmartDashboard app
     SmartDashboard.putNumber("Js", m_js.command());
+
   }
 
   @Override
